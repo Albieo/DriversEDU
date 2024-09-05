@@ -23,10 +23,10 @@ BASE_DIR = Path(__file__).resolve().parent.parent
 # See https://docs.djangoproject.com/en/5.1/howto/deployment/checklist/
 
 # SECURITY WARNING: keep the secret key used in production secret!
-SECRET_KEY = os.environ.get('SECRET_KEY')
+SECRET_KEY = os.environ.get("SECRET_KEY")
 
 # SECURITY WARNING: don't run with debug turned on in production!
-DEBUG = os.environ.get('DEBUG') == 'True'
+DEBUG = os.environ.get("DEBUG") == "True"
 
 ALLOWED_HOSTS = []
 
@@ -58,9 +58,7 @@ ROOT_URLCONF = "K53.urls"
 TEMPLATES = [
     {
         "BACKEND": "django.template.backends.django.DjangoTemplates",
-        "DIRS": [
-            BASE_DIR / "static/templates"
-        ],
+        "DIRS": [BASE_DIR / "static/templates"],
         "APP_DIRS": True,
         "OPTIONS": {
             "context_processors": [
@@ -82,11 +80,11 @@ WSGI_APPLICATION = "K53.wsgi.application"
 DATABASES = {
     "default": {
         "ENGINE": "django.db.backends.mysql",
-        "NAME": os.environ.get('MYSQL_DATABASE'),
-        "USER": os.environ.get('MYSQL_USER'),
-        "PASSWORD": os.environ.get('MYSQL_PASSWORD'),
-        "HOST": os.environ.get('MYSQL_HOST'),
-        "PORT": os.environ.get('MYSQL_PORT', 3306),
+        "NAME": os.environ.get("MYSQL_DATABASE"),
+        "USER": os.environ.get("MYSQL_USER"),
+        "PASSWORD": os.environ.get("MYSQL_PASSWORD"),
+        "HOST": os.environ.get("MYSQL_HOST"),
+        "PORT": os.environ.get("MYSQL_PORT", 3306),
     }
 }
 
@@ -126,9 +124,7 @@ USE_TZ = True
 # https://docs.djangoproject.com/en/5.1/howto/static-files/
 
 STATIC_URL = "static/"
-STATICFILES_DIRS = [
-        BASE_DIR / 'static'
-]
+STATICFILES_DIRS = [BASE_DIR / "static"]
 
 # Default primary key field type
 # https://docs.djangoproject.com/en/5.1/ref/settings/#default-auto-field

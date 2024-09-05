@@ -1,11 +1,11 @@
 from django.contrib import admin
 
-from .models import User, Role
+from .models import Role, Category, Question, Choice, Answer, TestNumber
 
 
-class UserAdmin(admin.ModelAdmin):
-	list_display = ('username', 'first_name', 'last_name', 'role')
-
-
-admin.site.register(User, UserAdmin)
 admin.site.register(Role)
+admin.site.register(Category)
+admin.site.register(Question)
+admin.site.register(Choice)
+admin.site.register(Answer)
+admin.site.register(TestNumber)

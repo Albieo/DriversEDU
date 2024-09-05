@@ -46,7 +46,7 @@
                         <div class="col-md-12">
                             <div class="mb-3"> 
                                 <label for="id_password" class="col-form-label">Password</label>
-                                {{ form.password }}
+                                {{ form.password1 }}
                                 <span id="passwordHelpInline" class="form-text">
                                       Must be 8-20 characters long.
                                 </span>
@@ -56,33 +56,11 @@
                         <div class="col-md-12">
                             <div class="mb-3"> 
                                 <label for="id_confirm_password" class="col-form-label">Confirm Password</label>
-                                {{ form.confirm_password }}
+                                {{ form.password2 }}
                                 <span id="passwordHelpInline" class="form-text">
                                       Must be the same as the password above.
                                 </span>
                             </div> 
-                        </div>
-
-                        <div class="col-md-12">
-                            <div class="mb-3"> 
-                                {% for radio in form.licence_type %}
-                                    <div class="form-check mb-3">
-                                        {{ radio.tag }}
-                                        <label class="form-check-label" for="{{ radio.id_for_label }}">
-                                            {{ radio.choice_label }}
-                                        </label>
-                                    </div>
-                                {% endfor %}
-
-                                <div class="invalid-feedback">Select licence type</div>
-                            </div>
-                        </div>
-
-                        <div class="col-md-12">
-                            <div class="mb-3"> 
-                                {{ form.licence_code }}
-                                <div class="invalid-feedback">Select a valid licence code</div>
-                            </div>
                         </div>
 
                         <div class="col-md-12">

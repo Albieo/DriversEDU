@@ -26,4 +26,6 @@ urlpatterns = [
     path("", views.HomeView.as_view(), name="home"),
     path("login/", views.LoginInterfaceView.as_view(), name="login"),
     path("signup/", views.UserCreateView.as_view(), name="signup"),
+    path("roles_selection/", views.UserCreateView.as_view(), name="roles_selection"),
+    path("question/<int:question_id>/", views.QuestionDetailView.as_view(), name="question_detail"),
 ]

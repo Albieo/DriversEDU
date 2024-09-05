@@ -1,38 +1,63 @@
 from django import forms
-from .models import User, Role
+from django.contrib.auth.forms import UserCreationForm
+from django.contrib.auth.models import User
+
+from .models import Choice, Answer
 
 
-class UserForm(forms.ModelForm):
+class CreateUserForm(UserCreationForm):
     class Meta:
         model = User
-        fields = ['first_name', 'last_name', 'username', 'password', 'confirm_password', 'licence_type', 'licence_code']
+        fields = [
+            "first_name",
+            "last_name",
+            "username",
+            "password1",
+            "password2",
+        ]
         labels = {
-            'first_name': 'First Name',
-            'last_name': 'Last Name',
-            'username': 'Username',
-            'password': 'Password',
-            'confirm_password': 'Confirm Password',
-            'licence_type': 'Licence Type',
-            'licence_code': 'Licence Code'
+            "first_name": "First Name",
+            "last_name": "Last Name",
+            "username": "Username",
+            "password1": "Password",
+            "password2": "Confirm Password",
         }
 
-    first_name = forms.CharField(label='First Name', widget=forms.TextInput(attrs={'class': 'form-control'}))
-    last_name = forms.CharField(label='Last Name', widget=forms.TextInput(attrs={'class': 'form-control'}))
-    username = forms.CharField(label='Username', widget=forms.TextInput(attrs={'class': 'form-control'}))
-    password = forms.CharField(widget=forms.PasswordInput(render_value=False, attrs={'class': 'form-control'}))
-    confirm_password = forms.CharField(widget=forms.PasswordInput(render_value=False, attrs={'class': 'form-control'}))
+    first_name = forms.CharField(
+        label="First Name", widget=forms.TextInput(attrs={"class": "form-control"})
+    )
+    last_name = forms.CharField(
+        label="Last Name", widget=forms.TextInput(attrs={"class": "form-control"})
+    )
+    username = forms.CharField(
+        label="Username", widget=forms.TextInput(attrs={"class": "form-control"})
+    )
+    password1 = forms.CharField(
+        label="Password", widget=forms.PasswordInput(attrs={"class": "form-control"})
+    )
+    password2 = forms.CharField(
+        label="Confirm Password", widget=forms.PasswordInput(attrs={"class": "form-control"})
+    )
 
-    def clean_confirm_password(self):
-        password = self.cleaned_data.get("password")
-        confirm_password = self.cleaned_data.get("confirm_password")
-        if password != confirm_password:
-            raise forms.ValidationError("Passwords do not match.")
-        return confirm_password
+    def clean(self):
+        cleaned_data = super().clean()
+        password1 = cleaned_data.get("password1")
+        password2 = cleaned_data.get("password2")
 
-    licence_type = forms.ChoiceField(choices=Role.LICENCE_TYPE_CHOICES, label='', widget=forms.RadioSelect(attrs={'class': 'form-check-input'}),)
-    licence_code = forms.ChoiceField(choices=Role.LICENCE_CODE_CHOICES, label='Licence Code', widget=forms.Select(attrs={'class': 'form-select'}))
+        if password1 != password2:
+            self.add_error("password2", "Passwords do not match.")
+
+        return cleaned_data
+
+
+class AnswerForm(forms.ModelForm):
+
+    class Meta:
+        model = Answer
+        fields = ['selected_choice']
 
     def __init__(self, *args, **kwargs):
+        question = kwargs.pop('question')
         super().__init__(*args, **kwargs)
-        self.fields['licence_type'].label = 'Licence Type'
-        self.fields['licence_code'].label = 'Licence Code'
+        self.fields['selected_choice'].queryset = Choice.objects.filter(question=question)
+        self.fields['selected_choice'].widget = forms.RadioSelect()
