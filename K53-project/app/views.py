@@ -1,12 +1,12 @@
 from datetime import datetime
 from django.contrib.auth.views import LoginView
-from django.shortcuts import get_object_or_404, render, redirect
-from django.urls import reverse
-from django.views import View
-from django.views.generic import TemplateView
+from django.shortcuts import get_object_or_404
+from django.urls import reverse_lazy
+
+from django.views.generic import TemplateView, CreateView
 from django.views.generic.edit import FormView
 
-from .forms import CreateUserForm, AnswerForm
+from .forms import CreateUserForm, AnswerForm, LoginForm
 from .models import Question
 
 
@@ -15,20 +15,20 @@ class HomeView(TemplateView):
 	extra_context = {"today": datetime.today()}
 
 
-class LoginInterfaceView(LoginView):
-	template_name = 'app/login.html'
-	success_url = '/'
-
-
-class UserCreateView(FormView):
+class UserCreateView(CreateView):
 	form_class = CreateUserForm
-	template_name = 'app/signup.html'
-	success_url = 'app/roles_selection.html'
+	template_name = 'registration/signup.html'
+	success_url = reverse_lazy('login')
 
 	def form_valid(self, form):
 		form.save()
 		
 		return super().form_valid(form)
+	
+
+class LoginInterfaceView(LoginView):
+	form_class = LoginForm
+	template_name = 'registration/login.html'
 
 
 class QuestionDetailView(FormView):

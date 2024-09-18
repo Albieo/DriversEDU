@@ -1,27 +1,11 @@
 from django import forms
-from django.contrib.auth.forms import UserCreationForm
-from django.contrib.auth.models import User
+from django.contrib.auth.forms import UserCreationForm, AuthenticationForm
 
-from .models import Choice, Answer
+from .models import Answer, Choice, User
 
 
 class CreateUserForm(UserCreationForm):
-    class Meta:
-        model = User
-        fields = [
-            "first_name",
-            "last_name",
-            "username",
-            "password1",
-            "password2",
-        ]
-        labels = {
-            "first_name": "First Name",
-            "last_name": "Last Name",
-            "username": "Username",
-            "password1": "Password",
-            "password2": "Confirm Password",
-        }
+    usable_password = None
 
     first_name = forms.CharField(
         label="First Name", widget=forms.TextInput(attrs={"class": "form-control"})
@@ -38,6 +22,37 @@ class CreateUserForm(UserCreationForm):
     password2 = forms.CharField(
         label="Confirm Password", widget=forms.PasswordInput(attrs={"class": "form-control"})
     )
+    licence_type = forms.ChoiceField(
+        label="Licence Type",
+        choices=(
+            ("Learner", "Learners Licence Student"),
+            ("Driver", "Drivers Licence Student"),
+        ),
+        widget=forms.RadioSelect(attrs={'class': 'form-check-input'})
+    )
+    licence_code = forms.ChoiceField(
+        label="Licence Code",
+        choices=(
+            ("", "Licence Codes"),
+            (1, "Code A"),
+            (2, "Code B"),
+            (3, "Code C"),
+            (4, "Code E"),
+        ),
+        widget=forms.Select(attrs={"class": "form-select"})
+    )
+
+    class Meta:
+        model = User
+        fields = [
+            "first_name",
+            "last_name",
+            "username",
+            "password1",
+            "password2",
+            "licence_type",
+            "licence_code",
+        ]
 
     def clean(self):
         cleaned_data = super().clean()
@@ -48,6 +63,15 @@ class CreateUserForm(UserCreationForm):
             self.add_error("password2", "Passwords do not match.")
 
         return cleaned_data
+
+
+class LoginForm(AuthenticationForm):
+    username = forms.CharField(
+        widget=forms.TextInput(attrs={"class": "form-control", 'placeholder': 'Username..'})
+    )
+    password = forms.CharField(
+        widget=forms.PasswordInput(attrs={"class": "form-control", 'placeholder': 'Password'})
+    )
 
 
 class AnswerForm(forms.ModelForm):

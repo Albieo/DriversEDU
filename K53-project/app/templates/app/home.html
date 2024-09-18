@@ -2,6 +2,32 @@
 
 
 {% block content %}
-    <h1>Welcome to K53 Guide!</h1>
-    <p>Today is {{ today }}</p>
+
+<div class="d-flex align-items-center" style="height: 100vh;">
+  <div class="container">
+    <div class="row">
+      <div class="col text-center">
+        <div class="p-3">
+            {% if request.user.is_authenticated %}
+	    <h1>Welcome to K53 Guide, {{ request.user.username }}!</h1>
+	    <form action="{% url 'logout' %}" method="post">
+		{% csrf_token %}
+		<button type="submit">Logout</button>
+	    </form>
+	    {% else %}
+	    <h1>Welcome to K53 Guide!</h1>
+	    <a href="{% url 'login' %}">Login</a>
+	    {% endif %}
+	    <p>Today is {{ today }}</p>
+        </div>
+      </div>
+      <div class="col text-center">
+        <div class="p-3 bg-light border">Column 2</div>
+      </div>
+    </div>
+  </div>
+</div>
+
+
+
 {% endblock %}

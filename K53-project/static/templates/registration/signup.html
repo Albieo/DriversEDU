@@ -1,0 +1,105 @@
+{% extends 'base.html' %}
+{% load static %}
+
+
+{% block content %}
+<div class="d-flex align-items-center" style="height: 100vh;">
+  <div class="container">
+    <div class="row">
+      <div class="col">
+        <div class="p-3">
+            <h3>Create your account!</h3>
+			<h5>Enter your Credentials to access your account.</h5>
+				<form method="post" class="was-validated">
+					{% csrf_token %}
+					<div class="col-md-12">
+					    <div class="mb-3"> 
+					        <label for="id_first_name" class="form-label">First Name</label>
+					        {{ form.first_name }}
+					        <div class="invalid-feedback">
+					            Please enter your first name.
+					        </div>
+					    </div> 
+					</div>
+
+					<div class="col-md-12">
+					    <div class="mb-3"> 
+					        <label for="id_last_name" class="form-label">Last Name</label>
+					        {{ form.last_name }}
+					        <div class="invalid-feedback">
+					            Please enter your last name.
+					        </div>
+					    </div>
+					</div>
+
+					<div class="col-md-12">
+					    <div class="mb-3"> 
+					        <label for="id_username" class="form-label">Username</label>
+					        <div class="input-group has-validation">
+					            <span class="input-group-text" id="inputGroupPrepend2">@</span>
+					            {{ form.username }}
+					            <div id="validationServerUsernameFeedback" class="invalid-feedback">
+					                Please choose a username.
+					            </div>
+					        </div>
+					    </div> 
+					</div>
+
+					<div class="col-md-12">
+					    <div class="mb-3"> 
+					        <label for="id_password" class="col-form-label">Password</label>
+					        {{ form.password1 }}
+					        <span id="passwordHelpInline" class="form-text">
+					            Must be 8-20 characters long.
+					        </span>
+					    </div> 
+					</div>
+
+					<div class="col-md-12">
+					    <div class="mb-3"> 
+					        <label for="id_confirm_password" class="col-form-label">Confirm Password</label>
+					        {{ form.password2 }}
+					        <span id="passwordHelpInline" class="form-text">
+					            Must be the same as the password above.
+					        </span>
+					    </div> 
+					</div>
+
+					<div class="col-md-12"> 
+					    <div class="form-check mb-3">
+					        {% for choice in form.licence_type %}
+					        <div class="form-check">
+					            {{ choice.tag }}
+					            <label class="form-check-label" for="{{ choice.id_for_label }}">
+					                {{ choice.choice_label }}
+					            </label>
+					        </div>
+					        {% endfor %}
+					        <span id="passwordHelpInline" class="form-text">
+					            Must choose Licence Type above.
+					        </span>
+					    </div>
+					</div>
+
+					<div class="col-md-12">
+					    <div class="mb-3">
+					        {{ form.licence_code }}
+					        <div class="invalid-feedback">Choose a Licence Code.</div>
+					    </div>
+					</div>
+
+					<div class="col-md-12">
+					    <div class="mb-3"> 
+					        <button class="btn btn-primary" type="submit">Sign up!</button>
+					    </div>
+					</div>
+				</form>
+        </div>
+      </div>
+      <div class="col d-flex justify-content-center align-items-center">
+        <img src="{% static 'images/K53-banner.jpeg' %}" class="img-fluid w-100 h-75" style="object-fit: cover;" alt="K53 Banner">
+      </div>
+    </div>
+  </div>
+</div>
+{% endblock %}
