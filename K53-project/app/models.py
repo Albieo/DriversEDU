@@ -53,7 +53,6 @@ class Choice(models.Model):
         return f'{self.text} ({"Correct" if self.is_correct else "Incorrect"})'
 
 
-
 class Answer(models.Model):
     user = models.ForeignKey(User, on_delete=models.CASCADE, null=True, blank=True)
     question = models.ForeignKey(Question, on_delete=models.CASCADE)
